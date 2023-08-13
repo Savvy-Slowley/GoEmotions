@@ -51,20 +51,8 @@ def tokenize_single_text(text):
         'attention_mask': np.array(tokens['attention_mask'])
     }
 
-import streamlit as st
-
-# Function to load the trained model
-def load_trained_model():
-    # Load your BERT-based emotion classification model here
-    pass
-
-# Function to tokenize a single text input
-def tokenize_single_text(text):
-    # Tokenize the input text here
-    pass
-
 def main():
-    st.title("Emotion Classifier")
+    st.title("Emotion Recognition")
 
     # Introduction and GitHub link
     st.markdown(
@@ -74,31 +62,25 @@ def main():
         "You can learn more about the dataset in [Google's Blog](https://ai.googleblog.com/2021/10/goemotions-dataset-for-fine-grained.html).\n\n"
         "Feel free to explore the code on [GitHub](https://github.com/Savvy-Slowley/GoEmotions)."
     )
-
-    # Text input area
+    
     user_input = st.text_area("Type the text you'd like to classify:")
 
-    # Check input length
     if len(user_input) > 125:
         st.warning("Input text is too long. Please limit it to 125 characters.")
         return
 
-    # Prediction button
     if st.button('Predict Emotion'):
         # Load the trained model
         model = load_trained_model()
 
-        # Tokenize input and make predictions
         tokens = tokenize_single_text(user_input)
         predictions = model.predict(tokens)
         predicted_labels = (predictions > 0.5).astype(int)[0]
 
-        # Get predicted emotions
-        emotion_columns_list = []  # Replace with actual emotion labels
         predicted_emotions = [emotion for emotion, label in zip(emotion_columns_list, predicted_labels) if label]
 
-        # Display predicted emotions
         st.write("Predicted Emotions:", ', '.join(predicted_emotions))
+
 
 if __name__ == '__main__':
     main()
